@@ -10,6 +10,10 @@ REG_DC_TO_DC2_DYNAMIC_VOLTAGE_CONTROL = const(0x25)
 REG_DC_TO_DC1_OUTPUT_VOLTAGE          = const(0x26)
 REG_DC_TO_DC3_OUTPUT_VOLTAGE          = const(0x27)
 REG_LDO2_LDO3_OUTPUT_VOLTAGE          = const(0x28)
+REG_IRQ_ENABLE_1 = const(0x40)
+REG_IRQ_ENABLE_2 = const(0x41)
+REG_IRQ_ENABLE_3 = const(0x42)
+REG_IRQ_ENABLE_4 = const(0x43)
 REG_IRQ_STATUS_1 = const(0x44)
 REG_IRQ_STATUS_2 = const(0x45)
 REG_IRQ_STATUS_3 = const(0x46)
@@ -247,6 +251,122 @@ class AXP192:
         self.__write_8bit(REG_LDO2_LDO3_OUTPUT_VOLTAGE, value)
     
     @property
+    def acin_over_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 7)
+    
+    @property
+    def acin_insert_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 6)
+    
+    @property
+    def acin_remove_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 5)
+    
+    @property
+    def vbus_over_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 4)
+    
+    @property
+    def vbus_insert_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 3)
+    
+    @property
+    def vbus_remove_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 2)
+    
+    @property
+    def vbus_valid_but_lower_than_vhold_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_1, 1)
+    
+    @property
+    def battery_insert_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 7)
+    
+    @property
+    def battery_remove_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 6)
+    
+    @property
+    def battery_active_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 5)
+    
+    @property
+    def battery_quit_active_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 4)
+    
+    @property
+    def battery_charging_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 3)
+    
+    @property
+    def battery_charging_finished_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 2)
+    
+    @property
+    def battery_over_temperature_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 1)
+    
+    @property
+    def battery_under_temperature_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_2, 1)
+    
+    @property
+    def pmu_over_temperature_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 7)
+    
+    @property
+    def insufficient_charging_current_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 6)
+    
+    @property
+    def dc_to_dc1_under_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 5)
+    
+    @property
+    def dc_to_dc2_under_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 4)
+    
+    @property
+    def dc_to_dc3_under_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 3)
+    
+    @property
+    def short_time_key_press_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 1)
+    
+    @property
+    def long_time_key_press_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_3, 0)
+    
+    @property
+    def power_on_by_noe_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 7)
+    
+    @property
+    def power_off_by_noe_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 6)
+    
+    @property
+    def vbus_valid_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 5)
+    
+    @property
+    def vbus_invalid_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 4)
+    
+    @property
+    def vbus_session_ab_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 3)
+    
+    @property
+    def vbus_session_end_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 2)
+    
+    @property
+    def aps_under_voltage_irq_enable(self):
+        return self.__read_bit(REG_IRQ_ENABLE_4, 0)
+    
+    @property
     def acin_over_voltage_irq_status(self):
         return self.__read_bit(REG_IRQ_STATUS_1, 7)
     
@@ -327,11 +447,11 @@ class AXP192:
         self.__set_bit(REG_IRQ_STATUS_2, 5, value)
     
     @property
-    def battery_quit_battery_active_irq_status(self):
+    def battery_quit_active_irq_status(self):
         return self.__read_bit(REG_IRQ_STATUS_2, 4)
     
-    @battery_quit_battery_active_irq_status.setter
-    def battery_quit_battery_active_irq_status_setter(self, value):
+    @battery_quit_active_irq_status.setter
+    def battery_quit_active_irq_status_setter(self, value):
         self.__set_bit(REG_IRQ_STATUS_2, 4, value)
     
     @property
@@ -610,8 +730,8 @@ class AXP192:
         self.set_lcd_voltage(2800)
         self.set_ldo_voltage(2, 3300)
         self.set_ldo_voltage(3, 2000)
-        self.ldo2 = True
-        self.dc_to_dc3 = True
+        self.ldo2_enable = True
+        self.dc_to_dc3_enable = True
         self.set_led(True)
         self.set_charging_current(100)
         self.__write_8bit(0x95, (self.__read_8bit(0x95) & 0x72) | 0x84)
